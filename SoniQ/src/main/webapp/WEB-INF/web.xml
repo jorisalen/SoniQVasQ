@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+        version="2.5">
+        
+        
+    <!-- Servlets -->
+   <servlet>
+   		<servlet-name>Error</servlet-name>
+        <servlet-class>controller.ErrorController</servlet-class>
+   </servlet>
+   
+    <servlet>
+        <servlet-name>Hello</servlet-name>
+        <servlet-class>controller.HelloController</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>RedirectCallback</servlet-name>
+        <servlet-class>com.auth0.Auth0ServletCallback</servlet-class>
+        <init-param>
+            <param-name>auth0.redirect_on_success</param-name>
+            <param-value>/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>auth0.redirect_on_error</param-name>
+            <param-value>/home</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>controller.LoginController</servlet-class>
+    </servlet>
+
+	<servlet>
+	 	<servlet-name>Controller</servlet-name>
+        <servlet-class>controller.Controller</servlet-class>
+	</servlet>
+	
+	 <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/Controller</url-pattern>
+    </servlet-mapping>
+	
+    <!-- Servlet Mappings -->
+    
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    
+     <servlet-mapping>
+        <servlet-name>Error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>RedirectCallback</servlet-name>
+        <url-pattern>/callback</url-pattern>
+    </servlet-mapping>
+
+    <!-- Filters -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.auth0.Auth0Filter</filter-class>
+        <init-param>
+            <param-name>auth0.redirect_on_authentication_error</param-name>
+            <param-value>/home</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
+    <!-- Auth0 Configuration -->
+    	<context-param>
+	    <param-name>auth0.client_id</param-name>
+	    <param-value>gWnsiM702YaESZLgLKvkU8enQZbphvJY</param-value>
+	</context-param>
+	
+	<context-param>
+	    <param-name>auth0.client_secret</param-name>
+	    <param-value>4xxXt-X_HebhIbIebzG_G1ggmhGQrs-YZop329t0IB49pT564rAKWuqAe8j-KBZC</param-value>
+	</context-param>
+	
+	<context-param>
+	    <param-name>auth0.domain</param-name>
+	    <param-value>soniq.auth0.com</param-value>
+	</context-param>
+	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+	    <error-code>500</error-code>
+	    <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+	    <exception-type>
+	          javax.servlet.ServletException
+	    </exception-type >
+	    <location>/error</location>
+	</error-page>
+		
+
+
+<filter>
+    <filter-name>ExpiresFilter</filter-name>
+    <filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>
+    <init-param>
+        <param-name>ExpiresByType image</param-name>
+        <param-value>access plus 10 days</param-value>
+    </init-param>
+    <init-param>
+        <param-name>ExpiresByType text/css</param-name>
+        <param-value>access plus 10 hours</param-value>
+    </init-param>
+    <init-param>
+        <param-name>ExpiresByType application/javascript</param-name>
+        <param-value>access plus 10 minutes</param-value>
+    </init-param>
+    <!-- Let everything else expire immediately -->
+    <init-param>
+        <param-name>ExpiresDefault</param-name>
+        <param-value>access plus 0 seconds</param-value>
+    </init-param>
+</filter>
+
+<filter-mapping>
+    <filter-name>ExpiresFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+</filter-mapping>
+
+
+
+
+</web-app>
